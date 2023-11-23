@@ -27,6 +27,9 @@ bin/
 *.vscode/
 
 # Système de build
+target/
+tomcat.8080/
+.maven/
 .gradle/
 build/
 
