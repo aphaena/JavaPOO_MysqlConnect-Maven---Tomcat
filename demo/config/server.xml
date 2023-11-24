@@ -1,3 +1,19 @@
-<Host name="localhost"  appBase="webapps" 
-unpackWARs="true" autoDeploy="true">
-   <Context path="/dataAccess" docBase="Main.war"/>
+<?xml version='1.0' encoding='utf-8'?>
+<Server port="8005" shutdown="SHUTDOWN">
+
+    <Service name="Catalina">
+        <Connector port="8080" protocol="HTTP/1.1"
+                   connectionTimeout="20000"
+                   redirectPort="8443"
+                   URIEncoding="UTF-8"
+                   useBodyEncodingForURI="true"/>
+
+        <Engine name="Catalina" defaultHost="localhost">
+            <Host name="localhost" appBase="webapps"
+                  unpackWARs="true" autoDeploy="true">
+                <Context path="/" docBase="Main.war"/>
+      
+            </Host>
+        </Engine>
+    </Service>
+</Server>

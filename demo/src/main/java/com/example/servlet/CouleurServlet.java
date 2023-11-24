@@ -10,7 +10,7 @@ import com.example.util.Routeur;
 
 import java.io.IOException;
 
-@WebServlet("/couleur/*")
+//@WebServlet("/couleur/*")
 public class CouleurServlet extends HttpServlet {
 
     //private DatabaseConnection dbConnection;

@@ -6,8 +6,8 @@ public class Aliment {
     private float poidsMoyen; // Le poids moyen de l'aliment
     private int calories; // La quantité de calories de l'aliment
     private float vitaminesC; // La quantité de vitamine C dans l'aliment
-    private Integer typeId; // L'identifiant du type d'aliment (peut être null)
-    private Integer couleurId; // L'identifiant de la couleur de l'aliment (peut être null)
+    private int typeId; // L'identifiant du type d'aliment (peut être null)
+    private int couleurId; // L'identifiant de la couleur de l'aliment (peut être null)
 
     // Constructeur par défaut
     public Aliment() {

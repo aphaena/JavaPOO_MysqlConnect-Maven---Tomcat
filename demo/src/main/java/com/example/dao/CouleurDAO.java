@@ -11,6 +11,7 @@ import java.sql.Statement;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.example.model.Couleur;
 import com.example.util.ResultSetTableDisplay;
 import com.example.util.ServletUtils;
 
@@ -79,15 +80,21 @@ public class CouleurDAO implements IGenericCRUD {
             // Lire et parser le corps de la requête JSON
             JsonObject jsonObject = ServletUtils.parseJsonRequest(request);
 
+            Couleur couleur = new Couleur();
+
             // Récupérer les valeurs 'nom' et 'hexadecimal_rvb'
-            String nom = jsonObject.getString("nom", "");
-            String hexadecimal_rvb = jsonObject.getString("hexadecimal_rvb", "");
+            // String nom = jsonObject.getString("nom", "");
+            // String hexadecimal_rvb = jsonObject.getString("hexadecimal_rvb", "");
+
+            couleur.setNom ( jsonObject.getString("nom", ""));
+            couleur.setHexadecimal_rvb(jsonObject.getString("hexadecimal_rvb", ""));
+         
 
             // Validation
             ServletUtils.validateRequestData(jsonObject, "nom", "hexadecimal_rvb");
 
             // Insérer la nouvelle couleur et récupérer un ResultSet
-            ResultSet resultSet = insertCouleurAndGet(nom, hexadecimal_rvb);
+            ResultSet resultSet = insertCouleurAndGet(couleur);
 
             // Utiliser toJson pour convertir le ResultSet en JSON
             String jsonResponse = ServletUtils.convertResultSetToJson(resultSet);
@@ -227,6 +234,36 @@ public class CouleurDAO implements IGenericCRUD {
         dbConnection.disconnect();
         
         return result;
+    }
+
+    public ResultSet insertCouleurAndGet(Couleur couleur) throws SQLException {
+        String insertSql = "INSERT INTO couleur (nom, hexadecimal_rvb) VALUES (?, ?)";
+        String selectSql = "SELECT * FROM couleur WHERE id = ?";
+        
+        dbConnection.connect();
+        
+        // Insertion de la nouvelle couleur
+        PreparedStatement insertStatement = dbConnection.getJdbcConnection().prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
+        insertStatement.setString(1, couleur.getNom());
+        insertStatement.setString(2, couleur.getHexadecimal_rvb());
+        insertStatement.executeUpdate();
+        
+        // Récupération de l'identifiant généré
+        ResultSet generatedKeys = insertStatement.getGeneratedKeys();
+        if (!generatedKeys.next()) {
+            throw new SQLException("Creating color failed, no ID obtained.");
+        }
+        int newColorId = generatedKeys.getInt(1);
+        insertStatement.close();
+    
+        // Récupération de la nouvelle couleur insérée
+        PreparedStatement selectStatement = dbConnection.getJdbcConnection().prepareStatement(selectSql);
+        selectStatement.setInt(1, newColorId);
+        ResultSet resultSet = selectStatement.executeQuery();
+    
+        // Note: La gestion de la fermeture du ResultSet et de la déconnexion de la base de données devrait être effectuée par l'appelant.
+        
+        return resultSet;
     }
     
     public ResultSet insertCouleurAndGet(String nom, String hexadecimal_rvb) throws SQLException {

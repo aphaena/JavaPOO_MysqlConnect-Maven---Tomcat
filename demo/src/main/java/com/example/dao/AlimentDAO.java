@@ -54,9 +54,6 @@ public class AlimentDAO implements IGenericCRUD{
     
             // Validation
     
-
-        
-    
             // Insérer le nouvel aliment et récupérer un ResultSet
             String jsonResponse = insertAlimentAndGet(nom, poidsMoyen, calories, vitaminesC, typeId, couleurId);
     

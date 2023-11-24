@@ -4,6 +4,7 @@ import java.io.File;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.Wrapper;
+import org.apache.catalina.connector.Connector;
 import org.apache.catalina.startup.Tomcat;
 
 import com.example.dao.DatabaseConnection;
@@ -48,8 +49,13 @@ public class Main {
         Wrapper alimentServletWrapper = Tomcat.addServlet(context, "ailmentServlet", new AlimentServlet());
         alimentServletWrapper.setLoadOnStartup(1);
         alimentServletWrapper.addMapping("/aliment/*");          
+
+        Wrapper homeServletWrapper = Tomcat.addServlet(context, "HomeServlet", new CouleurServlet());
+        homeServletWrapper.setLoadOnStartup(1);
+        homeServletWrapper.addMapping("/");
         
-        tomcat.getConnector();
+        Connector connector = tomcat.getConnector();
+        connector.setURIEncoding("UTF-8");
 
         // Démarrer le serveur
         tomcat.start();

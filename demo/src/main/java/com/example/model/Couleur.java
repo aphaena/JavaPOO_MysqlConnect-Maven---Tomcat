@@ -5,9 +5,13 @@ public class Couleur {
     private String nom;
     private String hexadecimal_rvb;
 
-    // Getters et setters
-    public String getNom() {
-        return nom;
+    public Couleur(){
+        
+    }
+
+    public Couleur(String nom){
+             this.nom = nom;
+             this.hexadecimal_rvb = "#000000";
     }
 
     public Couleur(String nom, String hexadecimal_rvb) {
@@ -15,6 +19,10 @@ public class Couleur {
         this.hexadecimal_rvb = hexadecimal_rvb;
     }
 
+        // Getters et setters
+    public String getNom() {
+        return nom;
+    }
     public void setNom(String nomCouleur) {
         this.nom = nomCouleur;
     }
